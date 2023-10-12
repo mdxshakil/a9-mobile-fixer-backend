@@ -1,4 +1,3 @@
-import { USER_ROLE } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import httpStatus from 'http-status';
 import { JwtPayload, Secret } from 'jsonwebtoken';
@@ -11,8 +10,16 @@ import { ILoginResponse, ILoginUser, ISingupUser } from './auth.interface';
 import { checkUserExistencyWithEmail, comparePassword } from './auth.utils';
 
 const signUp = async (payload: ISingupUser): Promise<{ message: string }> => {
-  const { email, password, firstName, lastName, profilePicture, contactNo } =
-    payload;
+  const {
+    email,
+    password,
+    firstName,
+    lastName,
+    profilePicture,
+    contactNo,
+    role,
+  } = payload;
+
 
   const hashedPassword = await bcrypt.hash(
     password,
@@ -25,7 +32,7 @@ const signUp = async (payload: ISingupUser): Promise<{ message: string }> => {
       data: {
         email,
         password: hashedPassword,
-        role: USER_ROLE.user,
+        role,
       },
     });
     // create the profile

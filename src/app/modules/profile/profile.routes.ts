@@ -11,10 +11,28 @@ router.get(
   ProfileController.getProfile
 );
 
+router.get(
+  '/get-users',
+  auth(USER_ROLE.super_admin),
+  ProfileController.getUsers
+);
+
 router.patch(
   '/edit-profile/:profileId',
   auth(USER_ROLE.user, USER_ROLE.admin, USER_ROLE.super_admin),
   ProfileController.editProfile
+);
+
+router.patch(
+  '/change-user-role',
+  auth(USER_ROLE.super_admin),
+  ProfileController.changeUserRole
+);
+
+router.patch(
+  '/delete-user',
+  auth(USER_ROLE.super_admin),
+  ProfileController.deleteUser
 );
 
 export const ProfileRoutes = router;
