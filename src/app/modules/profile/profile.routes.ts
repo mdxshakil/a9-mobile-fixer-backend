@@ -17,6 +17,12 @@ router.get(
   ProfileController.getUsers
 );
 
+router.get(
+  '/get-all-users',
+  auth(USER_ROLE.admin),
+  ProfileController.getAllUsers
+);
+
 router.patch(
   '/edit-profile/:profileId',
   auth(USER_ROLE.user, USER_ROLE.admin, USER_ROLE.super_admin),
@@ -31,7 +37,7 @@ router.patch(
 
 router.patch(
   '/delete-user',
-  auth(USER_ROLE.super_admin),
+  auth(USER_ROLE.super_admin, USER_ROLE.admin),
   ProfileController.deleteUser
 );
 

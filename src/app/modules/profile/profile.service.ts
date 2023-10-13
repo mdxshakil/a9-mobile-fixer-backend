@@ -149,10 +149,58 @@ const deleteUser = async (userId: string) => {
   return result;
 };
 
+const getAllUsers = async (paginationOptions: IPaginationOptions) => {
+  const { page, limit, sortBy, sortOrder, skip } =
+    paginationHelpers.calculatePagination(paginationOptions);
+
+  const result = await prisma.profile.findMany({
+    where: {
+      user: {
+        role: {
+          equals: 'user',
+        },
+      },
+    },
+    include: {
+      user: {
+        select: {
+          email: true,
+          role: true,
+          id: true,
+        },
+      },
+    },
+    orderBy: {
+      [sortBy]: sortOrder,
+    },
+    take: limit,
+    skip,
+  });
+
+  const total = await prisma.profile.count({
+    where: {
+      user: {
+        role: 'user',
+      },
+    },
+  });
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+      pageCount: Math.ceil(total / limit) || 1,
+    },
+    data: result,
+  };
+};
+
 export const ProfileService = {
   getProfile,
   getUsers,
   editProfile,
   changeUserRole,
   deleteUser,
+  getAllUsers,
 };

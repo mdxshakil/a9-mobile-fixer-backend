@@ -80,10 +80,29 @@ const deleteUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getAllUsers = catchAsync(async (req: Request, res: Response) => {
+  const paginationOptions = pick(req.query, [
+    'page',
+    'limit',
+    'sortBy',
+    'sortOrder',
+  ]);
+
+  const result = await ProfileService.getAllUsers(paginationOptions);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Users info retrived',
+    data: result,
+  });
+});
+
 export const ProfileController = {
   getProfile,
   editProfile,
   getUsers,
   changeUserRole,
   deleteUser,
+  getAllUsers,
 };
