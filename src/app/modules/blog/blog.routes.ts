@@ -16,4 +16,15 @@ router.post(
 
 router.get('/get-all-blogs', BlogController.getAllBlogs);
 
+router.delete('/:blogId', auth(USER_ROLE.admin), BlogController.deleteBlogById);
+
+router.get('/:blogId', BlogController.getBlogById);
+
+router.patch(
+  '/:blogId',
+  auth(USER_ROLE.admin),
+  validateRequest(BlogValidation.editBlog),
+  BlogController.editBlog
+);
+
 export const BlogRoutes = router;

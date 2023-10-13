@@ -21,6 +21,7 @@ const getAllBlogs = async (paginationOptions: IPaginationOptions) => {
         select: {
           firstName: true,
           lastName: true,
+          profilePicture: true,
         },
       },
     },
@@ -44,7 +45,47 @@ const getAllBlogs = async (paginationOptions: IPaginationOptions) => {
   };
 };
 
+const deleteBlogById = async (blogId: string) => {
+  const result = await prisma.blog.delete({
+    where: {
+      id: blogId,
+    },
+  });
+
+  return result;
+};
+
+const getBlogById = async (blogId: string) => {
+  const result = await prisma.blog.findUnique({
+    where: {
+      id: blogId,
+    },
+    include: {
+      profile: true,
+    },
+  });
+
+  return result;
+};
+
+const editBlog = async (blogId: string, payload: Partial<Blog>) => {
+  const result = await prisma.blog.update({
+    where: {
+      id: blogId,
+    },
+    data: {
+      title: payload.title,
+      description: payload.description,
+    },
+  });
+
+  return result;
+};
+
 export const BlogService = {
   addNewBlog,
   getAllBlogs,
+  deleteBlogById,
+  getBlogById,
+  editBlog,
 };

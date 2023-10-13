@@ -14,6 +14,14 @@ const createBlog = z.object({
   }),
 });
 
+const editBlog = z.object({
+  body: z.object({
+    title: z.string().optional(),
+    description: z.string().optional(),
+  }),
+});
+
 export const BlogValidation = {
   createBlog,
+  editBlog,
 };
