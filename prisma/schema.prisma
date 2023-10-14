@@ -33,6 +33,7 @@ model Profile {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   blogs     Blog[]
+  cart      Cart[]
 
   @@map("profiles")
 }
@@ -61,8 +62,78 @@ model Faq {
   @@map("faqs")
 }
 
+model Service {
+  id          String           @id @default(uuid())
+  title       String
+  description String
+  image       String
+  cost        Int
+  category    SERVICE_CATEGORY
+  slotsPerDay Int
+  status      SERVICE_STATUS   @default(live)
+  reviews     Reviews[]
+  ratings     Rating[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Cart      Cart[]
+
+  @@map("services")
+}
+
+model Reviews {
+  id      String @id @default(uuid())
+  comment String
+
+  serviceId String
+  service   Service  @relation(fields: [serviceId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("reviews")
+}
+
+model Rating {
+  id          String   @id @default(uuid())
+  ratingValue Int
+  serviceId   String
+  service     Service  @relation(fields: [serviceId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("ratings")
+}
+
+model Cart {
+  id String @id @default(uuid())
+
+  profileId String
+  profile   Profile @relation(fields: [profileId], references: [id])
+
+  serviceId String
+  service   Service @relation(fields: [serviceId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 enum USER_ROLE {
   admin
   super_admin
   user
+}
+
+enum SERVICE_STATUS {
+  upcoming
+  live
+}
+
+enum SERVICE_CATEGORY {
+  display
+  speaker
+  battery
+  backshell
+  microphone
+  charger
+  camera
 }

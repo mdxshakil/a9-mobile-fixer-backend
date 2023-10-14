@@ -3,6 +3,7 @@ import { AuthRoutes } from '../modules/auth/auth.routes';
 import { BlogRoutes } from '../modules/blog/blog.routes';
 import { FaqRoutes } from '../modules/faq/faq.routes';
 import { ProfileRoutes } from '../modules/profile/profile.routes';
+import { ServiceRoutes } from '../modules/service/service.routes';
 import { UserRoutes } from '../modules/user/user.routes';
 
 const router = express.Router();
@@ -27,6 +28,10 @@ const moduleRoutes = [
   {
     path: '/faq',
     route: FaqRoutes,
+  },
+  {
+    path: '/service',
+    route: ServiceRoutes,
   },
 ];
 
