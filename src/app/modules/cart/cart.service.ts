@@ -1,6 +1,8 @@
 import { Cart } from '@prisma/client';
 import httpStatus from 'http-status';
 import ApiError from '../../../errors/ApiError';
+import { paginationHelpers } from '../../../helpers/paginationHelper';
+import { IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../shared/prisma';
 
 const addToCart = async (payload: Cart) => {
@@ -28,7 +30,13 @@ const removeFromCart = async (cartItemId: string) => {
   return result;
 };
 
-const getMyCart = async (profileId: string) => {
+const getMyCart = async (
+  profileId: string,
+  paginationOptions: IPaginationOptions
+) => {
+  const { page, limit, skip, sortBy, sortOrder } =
+    paginationHelpers.calculatePagination(paginationOptions);
+
   const result = await prisma.cart.findMany({
     where: {
       profileId,
@@ -36,9 +44,28 @@ const getMyCart = async (profileId: string) => {
     include: {
       service: true,
     },
+    orderBy: {
+      [sortBy]: sortOrder,
+    },
+    take: limit,
+    skip,
   });
 
-  return result;
+  const total = await prisma.cart.count({
+    where: {
+      profileId,
+    },
+  });
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+      pageCount: Math.ceil(total / limit) || 1,
+    },
+    data: result,
+  };
 };
 
 const getCartItem = async (cartItemId: string) => {
