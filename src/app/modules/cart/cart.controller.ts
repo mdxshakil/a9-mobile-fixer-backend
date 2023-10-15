@@ -40,8 +40,21 @@ const getMyCart = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getCartItem = catchAsync(async (req: Request, res: Response) => {
+  const { cartItemId } = req.params;
+  const result = await CartService.getCartItem(cartItemId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Cart item retrived successfully',
+    data: result,
+  });
+});
+
 export const CartController = {
   addToCart,
   removeFromCart,
   getMyCart,
+  getCartItem,
 };

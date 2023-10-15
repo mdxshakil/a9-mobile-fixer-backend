@@ -20,6 +20,16 @@ router.delete(
   CartController.removeFromCart
 );
 
-router.get('/get-my-cart/:profileId', auth(USER_ROLE.user), CartController.getMyCart);
+router.get(
+  '/get-my-cart/:profileId',
+  auth(USER_ROLE.user),
+  CartController.getMyCart
+);
+
+router.get(
+  '/get-cart-item/:cartItemId',
+  auth(USER_ROLE.user),
+  CartController.getCartItem
+);
 
 export const CartRoutes = router;

@@ -41,8 +41,22 @@ const getMyCart = async (profileId: string) => {
   return result;
 };
 
+const getCartItem = async (cartItemId: string) => {
+  const result = await prisma.cart.findUnique({
+    where: {
+      id: cartItemId,
+    },
+    include: {
+      service: true,
+    },
+  });
+
+  return result;
+};
+
 export const CartService = {
   addToCart,
   removeFromCart,
   getMyCart,
+  getCartItem,
 };
