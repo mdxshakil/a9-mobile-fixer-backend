@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Prisma, Service } from '@prisma/client';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { IPaginationOptions } from '../../../interfaces/pagination';
@@ -102,10 +103,57 @@ const getServicesForHomePage = async () => {
   return result;
 };
 
-const getServicesForAdminDashboard = async () => {
-  const result = await prisma.service.findMany();
+const getServicesForAdminDashboard = async (
+  paginationOptions: IPaginationOptions,
+  filterOptions: { filter: string }
+) => {
+  const { page, limit, skip, sortBy, sortOrder } =
+    paginationHelpers.calculatePagination(paginationOptions);
 
-  return result;
+  const { filter } = filterOptions;
+
+  let andConditions = [];
+
+  if (filter) {
+    if (filter === 'live') {
+      andConditions.push({
+        status: 'live',
+      });
+    } else if (filter === 'upcoming') {
+      andConditions.push({
+        status: 'upcoming',
+      });
+    } else if (filter === 'all') {
+      andConditions = [];
+    }
+  }
+
+  // @ts-ignore
+  const whereConditions: Prisma.ServiceWhereInput =
+    andConditions.length > 0 ? { AND: andConditions } : {};
+
+  const result = await prisma.service.findMany({
+    where: whereConditions,
+    orderBy: {
+      [sortBy]: sortOrder,
+    },
+    take: limit,
+    skip,
+  });
+
+  const total = await prisma.service.count({
+    where: whereConditions,
+  });
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+      pageCount: Math.ceil(total / limit) || 1,
+    },
+    data: result,
+  };
 };
 
 const deleteService = async (serviceId: string) => {

@@ -61,7 +61,13 @@ const getServicesForHomePage = catchAsync(
 
 const getServicesForAdminDashboard = catchAsync(
   async (req: Request, res: Response) => {
-    const result = await ServicesService.getServicesForAdminDashboard();
+    const paginationOptions = pick(req.query, paginationFields);
+    const filterOptions = pick(req.query, ['filter']);
+
+    const result = await ServicesService.getServicesForAdminDashboard(
+      paginationOptions,
+      filterOptions as { filter: string }
+    );
 
     sendResponse(res, {
       statusCode: httpStatus.OK,

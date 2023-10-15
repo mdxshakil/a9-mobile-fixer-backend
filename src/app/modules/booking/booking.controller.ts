@@ -38,7 +38,14 @@ const confirmBooking = catchAsync(async (req: Request, res: Response) => {
 
 const getMyBookings = catchAsync(async (req: Request, res: Response) => {
   const { profileId } = req.params;
-  const result = await BookingService.getMyBookings(profileId);
+  const paginationOptions = pick(req.query, paginationFields);
+  const filterOptions = pick(req.query, ['filter']);
+
+  const result = await BookingService.getMyBookings(
+    profileId,
+    paginationOptions,
+    filterOptions as { filter: string }
+  );
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

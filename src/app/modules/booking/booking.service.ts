@@ -52,16 +52,69 @@ const confirmBooking = async (payload: Booking, cartItemId: string) => {
   };
 };
 
-const getMyBookings = async (profileId: string) => {
+const getMyBookings = async (
+  profileId: string,
+  paginationOptions: IPaginationOptions,
+  filterOptions: { filter: string }
+) => {
+  const { page, limit, skip, sortBy, sortOrder } =
+    paginationHelpers.calculatePagination(paginationOptions);
+
+  const { filter } = filterOptions;
+
+  let andConditions = [];
+
+  andConditions.push({
+    profileId,
+  });
+
+  if (filter) {
+    if (filter === 'pending') {
+      andConditions.push({
+        status: 'pending',
+      });
+    } else if (filter === 'completed') {
+      andConditions.push({
+        status: 'completed',
+      });
+    } else if (filter === 'rejected') {
+      andConditions.push({
+        status: 'rejected',
+      });
+    } else if (filter === 'all') {
+      andConditions = [];
+    }
+  }
+
+  // @ts-ignore
+  const whereConditions: Prisma.BookingWhereInput =
+    andConditions.length > 0 ? { AND: andConditions } : { profileId };
+
   const result = await prisma.booking.findMany({
-    where: {
-      profileId,
-    },
+    where: whereConditions,
     include: {
       service: true,
     },
+    orderBy: {
+      [sortBy]: sortOrder,
+    },
+    take: limit,
+    skip,
   });
-  return result;
+
+  const total = await prisma.booking.count({
+    where: whereConditions,
+  });
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+      pageCount: Math.ceil(total / limit) || 1,
+    },
+    data: result,
+  };
 };
 
 const getAllBookings = async (
