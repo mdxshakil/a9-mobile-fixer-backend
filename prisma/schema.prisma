@@ -35,6 +35,8 @@ model Profile {
   blogs     Blog[]
   cart      Cart[]
   bookings  Booking[]
+  reviews   Reviews[]
+  ratings   Rating[]
 
   @@map("profiles")
 }
@@ -88,7 +90,11 @@ model Reviews {
   comment String
 
   serviceId String
-  service   Service  @relation(fields: [serviceId], references: [id])
+  service   Service @relation(fields: [serviceId], references: [id])
+
+  profileId String
+  profile   Profile @relation(fields: [profileId], references: [id])
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -96,12 +102,16 @@ model Reviews {
 }
 
 model Rating {
-  id          String   @id @default(uuid())
+  id          String  @id @default(uuid())
   ratingValue Int
   serviceId   String
-  service     Service  @relation(fields: [serviceId], references: [id])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  service     Service @relation(fields: [serviceId], references: [id])
+
+  profileId String
+  profile   Profile @relation(fields: [profileId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("ratings")
 }

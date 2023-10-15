@@ -177,10 +177,23 @@ const updateBookingStatus = async (bookingId: string, action: string) => {
   };
 };
 
+const getSingleBooking = async (serviceId: string, profileId: string) => {
+  const result = await prisma.booking.findFirst({
+    where: {
+      serviceId,
+      profileId,
+      OR: [{ status: 'completed' }, { status: 'rejected' }],
+    },
+  });
+
+  return result;
+};
+
 export const BookingService = {
   checkRemainingSlots,
   confirmBooking,
   getMyBookings,
   getAllBookings,
   updateBookingStatus,
+  getSingleBooking,
 };

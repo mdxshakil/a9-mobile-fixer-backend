@@ -6,6 +6,8 @@ import { CartRoutes } from '../modules/cart/cart.routes';
 import { FaqRoutes } from '../modules/faq/faq.routes';
 import { NotificationRoutes } from '../modules/notification/notification.routes';
 import { ProfileRoutes } from '../modules/profile/profile.routes';
+import { RatingRoutes } from '../modules/rating/rating.routes';
+import { ReviewRoutes } from '../modules/review/review.routes';
 import { ServiceRoutes } from '../modules/service/service.routes';
 import { UserRoutes } from '../modules/user/user.routes';
 
@@ -47,6 +49,14 @@ const moduleRoutes = [
   {
     path: '/notification',
     route: NotificationRoutes,
+  },
+  {
+    path: '/review',
+    route: ReviewRoutes,
+  },
+  {
+    path: '/rating',
+    route: RatingRoutes,
   },
 ];
 

@@ -35,4 +35,10 @@ router.patch(
   BookingController.updateBookingStatus
 );
 
+router.get(
+  '/single-booking-info',
+  auth(USER_ROLE.user),
+  BookingController.getSingleBooking
+);
+
 export const BookingRoutes = router;
