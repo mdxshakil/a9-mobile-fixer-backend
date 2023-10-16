@@ -44,4 +44,10 @@ router.get(
   BookingController.getSingleBooking
 );
 
+router.delete(
+  '/cancel-booking/:bookingId',
+  auth(USER_ROLE.user),
+  BookingController.cancelBooking
+);
+
 export const BookingRoutes = router;

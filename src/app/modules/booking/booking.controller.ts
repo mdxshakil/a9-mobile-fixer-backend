@@ -36,6 +36,19 @@ const confirmBooking = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const cancelBooking = catchAsync(async (req: Request, res: Response) => {
+  const { bookingId } = req.params;
+
+  const result = await BookingService.cancelBooking(bookingId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Booking Cancelled',
+    data: result,
+  });
+});
+
 const getMyBookings = catchAsync(async (req: Request, res: Response) => {
   const { profileId } = req.params;
   const paginationOptions = pick(req.query, paginationFields);
@@ -102,6 +115,7 @@ const getSingleBooking = catchAsync(async (req: Request, res: Response) => {
 export const BookingController = {
   checkRemainingSlots,
   confirmBooking,
+  cancelBooking,
   getMyBookings,
   getAllBookings,
   updateBookingStatus,

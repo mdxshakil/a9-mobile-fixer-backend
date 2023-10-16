@@ -52,6 +52,35 @@ const confirmBooking = async (payload: Booking, cartItemId: string) => {
   };
 };
 
+const cancelBooking = async (bookingId: string) => {
+  let result;
+  await prisma.$transaction(async (tc: ITransactionClient): Promise<void> => {
+    const selectedBooking = await tc.booking.findUnique({
+      where: {
+        id: bookingId,
+      },
+    });
+
+    if (
+      selectedBooking?.status === 'completed' ||
+      selectedBooking?.status === 'rejected'
+    ) {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        'Can not cancel a booking after it is rejected or completed'
+      );
+    }
+
+    result = await tc.booking.delete({
+      where: {
+        id: bookingId,
+      },
+    });
+  });
+
+  return result;
+};
+
 const getMyBookings = async (
   profileId: string,
   paginationOptions: IPaginationOptions,
@@ -245,6 +274,7 @@ const getSingleBooking = async (serviceId: string, profileId: string) => {
 export const BookingService = {
   checkRemainingSlots,
   confirmBooking,
+  cancelBooking,
   getMyBookings,
   getAllBookings,
   updateBookingStatus,
