@@ -157,6 +157,15 @@ model Notification {
   @@map("notifications")
 }
 
+model Feedback {
+  id      String @id @default(uuid())
+  email   String
+  message String
+
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+}
+
 enum USER_ROLE {
   admin
   super_admin

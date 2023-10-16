@@ -4,6 +4,7 @@ import { BlogRoutes } from '../modules/blog/blog.routes';
 import { BookingRoutes } from '../modules/booking/booking.routes';
 import { CartRoutes } from '../modules/cart/cart.routes';
 import { FaqRoutes } from '../modules/faq/faq.routes';
+import { FeedbackRoutes } from '../modules/feedback/feedback.routes';
 import { NotificationRoutes } from '../modules/notification/notification.routes';
 import { ProfileRoutes } from '../modules/profile/profile.routes';
 import { RatingRoutes } from '../modules/rating/rating.routes';
@@ -57,6 +58,10 @@ const moduleRoutes = [
   {
     path: '/rating',
     route: RatingRoutes,
+  },
+  {
+    path: '/feedback',
+    route: FeedbackRoutes,
   },
 ];
 
