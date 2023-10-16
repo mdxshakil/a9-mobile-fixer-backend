@@ -271,6 +271,17 @@ const getSingleBooking = async (serviceId: string, profileId: string) => {
   return result;
 };
 
+const checkServicePurchasedOrNot = async (profileId: string) => {
+  const result = await prisma.booking.findFirst({
+    where: {
+      profileId,
+      OR: [{ status: 'completed' }, { status: 'rejected' }],
+    },
+  });
+
+  return result;
+};
+
 export const BookingService = {
   checkRemainingSlots,
   confirmBooking,
@@ -279,4 +290,5 @@ export const BookingService = {
   getAllBookings,
   updateBookingStatus,
   getSingleBooking,
+  checkServicePurchasedOrNot,
 };

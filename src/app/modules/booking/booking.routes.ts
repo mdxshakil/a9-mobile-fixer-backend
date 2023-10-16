@@ -44,6 +44,12 @@ router.get(
   BookingController.getSingleBooking
 );
 
+router.get(
+  '/check-service-purchase',
+  auth(USER_ROLE.user),
+  BookingController.checkServicePurchasedOrNot
+);
+
 router.delete(
   '/cancel-booking/:bookingId',
   auth(USER_ROLE.user),

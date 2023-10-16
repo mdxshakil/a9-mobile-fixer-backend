@@ -30,13 +30,14 @@ model Profile {
   userId String @unique
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  blogs     Blog[]
-  cart      Cart[]
-  bookings  Booking[]
-  reviews   Reviews[]
-  ratings   Rating[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  blogs        Blog[]
+  cart         Cart[]
+  bookings     Booking[]
+  reviews      Reviews[]
+  ratings      Rating[]
+  testimonials Testimonial[]
 
   @@map("profiles")
 }
@@ -166,6 +167,22 @@ model Feedback {
   createdAt DateTime @default(now())
 }
 
+model Testimonial {
+  id         String     @id @default(uuid())
+  experience EXPERIENCE
+  message    String
+
+  profileId String
+  profile   Profile @relation(fields: [profileId], references: [id])
+
+  isApproved Boolean @default(false)
+
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  @@map("testimonials")
+}
+
 enum USER_ROLE {
   admin
   super_admin
@@ -191,4 +208,10 @@ enum BOOKING_STATUS {
   pending
   rejected
   completed
+}
+
+enum EXPERIENCE {
+  good
+  very_good
+  average
 }

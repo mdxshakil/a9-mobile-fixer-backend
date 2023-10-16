@@ -112,6 +112,22 @@ const getSingleBooking = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const checkServicePurchasedOrNot = catchAsync(
+  async (req: Request, res: Response) => {
+    const { profileId } = req.query;
+    const result = await BookingService.checkServicePurchasedOrNot(
+      profileId as string
+    );
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Booking info retrived',
+      data: result,
+    });
+  }
+);
+
 export const BookingController = {
   checkRemainingSlots,
   confirmBooking,
@@ -120,4 +136,5 @@ export const BookingController = {
   getAllBookings,
   updateBookingStatus,
   getSingleBooking,
+  checkServicePurchasedOrNot,
 };

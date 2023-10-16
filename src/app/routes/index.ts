@@ -10,6 +10,7 @@ import { ProfileRoutes } from '../modules/profile/profile.routes';
 import { RatingRoutes } from '../modules/rating/rating.routes';
 import { ReviewRoutes } from '../modules/review/review.routes';
 import { ServiceRoutes } from '../modules/service/service.routes';
+import { TestimonialRoutes } from '../modules/testimonial/testimonial.routes';
 import { UserRoutes } from '../modules/user/user.routes';
 
 const router = express.Router();
@@ -62,6 +63,10 @@ const moduleRoutes = [
   {
     path: '/feedback',
     route: FeedbackRoutes,
+  },
+  {
+    path: '/testimonial',
+    route: TestimonialRoutes,
   },
 ];
 
