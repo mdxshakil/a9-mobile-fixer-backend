@@ -10,6 +10,7 @@ import { ProfileRoutes } from '../modules/profile/profile.routes';
 import { RatingRoutes } from '../modules/rating/rating.routes';
 import { ReviewRoutes } from '../modules/review/review.routes';
 import { ServiceRoutes } from '../modules/service/service.routes';
+import { StatRoutes } from '../modules/stats/stats.routes';
 import { TestimonialRoutes } from '../modules/testimonial/testimonial.routes';
 import { UserRoutes } from '../modules/user/user.routes';
 
@@ -67,6 +68,10 @@ const moduleRoutes = [
   {
     path: '/testimonial',
     route: TestimonialRoutes,
+  },
+  {
+    path: '/stat',
+    route: StatRoutes,
   },
 ];
 

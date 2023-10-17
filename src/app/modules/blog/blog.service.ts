@@ -82,10 +82,22 @@ const editBlog = async (blogId: string, payload: Partial<Blog>) => {
   return result;
 };
 
+const getLatestBlogs = async () => {
+  const result = await prisma.blog.findMany({
+    take: 6,
+    orderBy: {
+      createdAt: 'desc',
+    },
+  });
+
+  return result;
+};
+
 export const BlogService = {
   addNewBlog,
   getAllBlogs,
   deleteBlogById,
   getBlogById,
   editBlog,
+  getLatestBlogs,
 };

@@ -68,10 +68,22 @@ const editBlog = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getLatestBlogs = catchAsync(async (req: Request, res: Response) => {
+  const result = await BlogService.getLatestBlogs();
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Blogs retrived successfully',
+    data: result,
+  });
+});
+
 export const BlogController = {
   addNewBlog,
   getAllBlogs,
   deleteBlogById,
   getBlogById,
   editBlog,
+  getLatestBlogs,
 };

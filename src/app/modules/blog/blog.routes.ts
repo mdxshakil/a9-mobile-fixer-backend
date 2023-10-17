@@ -15,6 +15,7 @@ router.post(
 );
 
 router.get('/get-all-blogs', BlogController.getAllBlogs);
+router.get('/get-latest-blogs', BlogController.getLatestBlogs);
 
 router.delete('/:blogId', auth(USER_ROLE.admin), BlogController.deleteBlogById);
 
