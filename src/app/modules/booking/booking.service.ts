@@ -7,29 +7,34 @@ import { ITransactionClient } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../shared/prisma';
 
-const checkRemainingSlots = async (serviceId: string, bookingTime: string) => {
-  // find the selected service
+const checkRemainingSlots = async (serviceId: string, bookingTime: string) => {  
   const selectedService = await prisma.service.findUnique({
     where: {
       id: serviceId,
     },
   });
-  //find total booing of that service on selected date
+
+  if (!selectedService) {
+    // Handle the case when the service doesn't exist
+    throw new ApiError(httpStatus.NOT_FOUND, 'Service not found');
+  }
+
+  // Find the total booking count of that service on the selected date
   const previousBookingCount = await prisma.booking.count({
     where: {
       serviceId: serviceId,
       bookingTime: bookingTime,
     },
   });
-  //if no slots left then throw error
-  if (selectedService && previousBookingCount > selectedService?.slotsPerDay) {
+
+  // If no slots left, throw an error
+  if (previousBookingCount >= selectedService.slotsPerDay) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'No slots left');
   }
 
-  //return how many slots left fo the service on that day
+  // Return how many slots are left for the service on that day
   return {
-    slotsLeft:
-      selectedService && selectedService?.slotsPerDay - previousBookingCount,
+    slotsLeft: selectedService.slotsPerDay - previousBookingCount,
   };
 };
 

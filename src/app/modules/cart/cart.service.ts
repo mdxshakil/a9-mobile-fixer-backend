@@ -68,7 +68,7 @@ const getMyCart = async (
   };
 };
 
-const getCartItem = async (cartItemId: string) => {
+const getCartItem = async (cartItemId: string) => {  
   const result = await prisma.cart.findUnique({
     where: {
       id: cartItemId,

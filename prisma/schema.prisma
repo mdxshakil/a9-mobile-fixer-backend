@@ -188,8 +188,11 @@ model Event {
   title     String
   venue     String
   eventDate DateTime
-  banner     String
+  banner    String
   status    EVENT_STATUS @default(upcoming)
+
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
 
   @@map("events")
 }
