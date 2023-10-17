@@ -3,6 +3,7 @@ import { AuthRoutes } from '../modules/auth/auth.routes';
 import { BlogRoutes } from '../modules/blog/blog.routes';
 import { BookingRoutes } from '../modules/booking/booking.routes';
 import { CartRoutes } from '../modules/cart/cart.routes';
+import { EventRoutes } from '../modules/event/event.routes';
 import { FaqRoutes } from '../modules/faq/faq.routes';
 import { FeedbackRoutes } from '../modules/feedback/feedback.routes';
 import { NotificationRoutes } from '../modules/notification/notification.routes';
@@ -72,6 +73,10 @@ const moduleRoutes = [
   {
     path: '/stat',
     route: StatRoutes,
+  },
+  {
+    path: '/event',
+    route: EventRoutes,
   },
 ];
 

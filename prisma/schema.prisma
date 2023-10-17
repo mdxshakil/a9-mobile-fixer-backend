@@ -183,6 +183,17 @@ model Testimonial {
   @@map("testimonials")
 }
 
+model Event {
+  id        String       @id @default(uuid())
+  title     String
+  venue     String
+  eventDate DateTime
+  banner     String
+  status    EVENT_STATUS @default(upcoming)
+
+  @@map("events")
+}
+
 enum USER_ROLE {
   admin
   super_admin
@@ -214,4 +225,9 @@ enum EXPERIENCE {
   good
   very_good
   average
+}
+
+enum EVENT_STATUS {
+  upcoming
+  closed
 }
