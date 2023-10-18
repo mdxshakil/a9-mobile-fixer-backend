@@ -9,6 +9,12 @@ This project is a web application for providing mobile phone repairing services.
 #### Super Admin Email: superadmin@gmail.com
 #### Pass: Qw1111
 
+ ### Tech stack:
+ - React
+ - Redux
+ - Prisma
+ - Postgresql
+
 ## Super Admin
 
 - Can add new admin users to the system.
