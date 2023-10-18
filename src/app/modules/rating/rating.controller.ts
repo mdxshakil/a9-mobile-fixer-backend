@@ -33,7 +33,20 @@ const checkRatingGivenOrNot = catchAsync(
   }
 );
 
+const getRatingOfAService = catchAsync(async (req: Request, res: Response) => {
+  const { serviceId } = req.params;
+  const result = await RatingService.getRatingOfAService(serviceId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Ratings retrived',
+    data: result,
+  });
+});
+
 export const RatingController = {
   addRating,
   checkRatingGivenOrNot,
+  getRatingOfAService,
 };

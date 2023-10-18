@@ -20,4 +20,9 @@ router.get(
   RatingController.checkRatingGivenOrNot
 );
 
+router.get(
+  '/get-service-rating/:serviceId',
+  RatingController.getRatingOfAService
+);
+
 export const RatingRoutes = router;

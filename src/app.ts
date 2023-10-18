@@ -5,13 +5,13 @@ import globalErrorHandler from './app/middlewares/globalErrorHandler';
 import routes from './app/routes';
 
 import cookieParser from 'cookie-parser';
-import config from './config';
+// import config from './config';
 
 const app: Application = express();
 
 // Serve uploaded images statically
-app.use('/avatar', express.static(config.profile_pic_dest as string));
-app.use('/banner', express.static(config.blog_banner_dest as string));
+// app.use('/avatar', express.static(config.profile_pic_dest as string));
+// app.use('/banner', express.static(config.blog_banner_dest as string));
 
 app.use(cors());
 // app.use(
