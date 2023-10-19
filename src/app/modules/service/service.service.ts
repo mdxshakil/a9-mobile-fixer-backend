@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Prisma, Service } from '@prisma/client';
+import httpStatus from 'http-status';
+import ApiError from '../../../errors/ApiError';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../shared/prisma';
@@ -157,6 +159,19 @@ const getServicesForAdminDashboard = async (
 };
 
 const deleteService = async (serviceId: string) => {
+  const isBooked = await prisma.booking.findFirst({
+    where: {
+      serviceId,
+    },
+  });
+
+  if (isBooked) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "Can't delete a service which is booked"
+    );
+  }
+  
   const result = await prisma.service.delete({
     where: {
       id: serviceId,
