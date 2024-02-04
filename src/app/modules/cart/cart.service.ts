@@ -68,7 +68,7 @@ const getMyCart = async (
   };
 };
 
-const getCartItem = async (cartItemId: string) => {  
+const getCartItem = async (cartItemId: string) => {
   const result = await prisma.cart.findUnique({
     where: {
       id: cartItemId,
@@ -81,9 +81,21 @@ const getCartItem = async (cartItemId: string) => {
   return result;
 };
 
+const isItemInCart = async (serviceId: string, profileId:string) => {
+  const result = await prisma.cart.findFirst({
+    where: {
+      serviceId,
+      profileId,
+    },
+  });
+
+  return { isAlreadyInCart: result?.id ? true : false };
+};
+
 export const CartService = {
   addToCart,
   removeFromCart,
   getMyCart,
   getCartItem,
+  isItemInCart,
 };

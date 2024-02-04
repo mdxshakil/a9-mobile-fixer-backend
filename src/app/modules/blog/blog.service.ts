@@ -61,7 +61,13 @@ const getBlogById = async (blogId: string) => {
       id: blogId,
     },
     include: {
-      profile: true,
+      profile: {
+        select: {
+          firstName: true,
+          lastName: true,
+          profilePicture: true,
+        },
+      },
     },
   });
 
@@ -84,7 +90,16 @@ const editBlog = async (blogId: string, payload: Partial<Blog>) => {
 
 const getLatestBlogs = async () => {
   const result = await prisma.blog.findMany({
-    take: 6,
+    take: 4,
+    include: {
+      profile: {
+        select: {
+          firstName: true,
+          lastName: true,
+          profilePicture: true,
+        },
+      },
+    },
     orderBy: {
       createdAt: 'desc',
     },

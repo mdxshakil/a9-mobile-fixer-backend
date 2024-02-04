@@ -55,9 +55,23 @@ const getCartItem = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const isItemInCart = catchAsync(async (req: Request, res: Response) => {
+  const { serviceId } = req.params;
+  const { profileId } = req.query;  
+  const result = await CartService.isItemInCart(serviceId, profileId as string);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Cart item retrived successfully',
+    data: result,
+  });
+});
+
 export const CartController = {
   addToCart,
   removeFromCart,
   getMyCart,
   getCartItem,
+  isItemInCart,
 };

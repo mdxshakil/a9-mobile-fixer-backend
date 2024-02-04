@@ -7,8 +7,11 @@ This project is a web application for providing mobile phone repairing services.
 - User
 
 #### Super Admin Email: superadmin@gmail.com
-
 #### Pass: Qw1111
+
+#### Admin Email: admin@gmail.com
+#### Pass: Qw1111
+
 
 ### Tech stack:
 

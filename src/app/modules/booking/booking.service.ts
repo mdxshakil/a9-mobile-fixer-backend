@@ -7,7 +7,7 @@ import { ITransactionClient } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../shared/prisma';
 
-const checkRemainingSlots = async (serviceId: string, bookingTime: string) => {  
+const checkRemainingSlots = async (serviceId: string, bookingTime: string) => {
   const selectedService = await prisma.service.findUnique({
     where: {
       id: serviceId,
@@ -38,14 +38,16 @@ const checkRemainingSlots = async (serviceId: string, bookingTime: string) => {
   };
 };
 
-const confirmBooking = async (payload: Booking, cartItemId: string) => {
+const confirmBooking = async (payload: Booking) => {
   await prisma.$transaction(async (tc: ITransactionClient): Promise<void> => {
     //delete service from user cart
-    await tc.cart.delete({
-      where: {
-        id: cartItemId,
-      },
-    });
+    // if (cartItemId) {
+    //   await tc.cart.delete({
+    //     where: {
+    //       id: cartItemId,
+    //     },
+    //   });
+    // }
     //confirm booking
     await tc.booking.create({
       data: { ...payload },

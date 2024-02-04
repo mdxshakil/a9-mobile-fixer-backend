@@ -32,4 +32,10 @@ router.get(
   CartController.getCartItem
 );
 
+router.get(
+  '/is-in-cart/:serviceId',
+  auth(USER_ROLE.user),
+  CartController.isItemInCart
+);
+
 export const CartRoutes = router;

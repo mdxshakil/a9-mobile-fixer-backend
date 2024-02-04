@@ -24,9 +24,7 @@ const checkRemainingSlots = catchAsync(async (req: Request, res: Response) => {
 
 const confirmBooking = catchAsync(async (req: Request, res: Response) => {
   const data = req.body;
-  const { cartItemId, ...payload } = data;
-
-  const result = await BookingService.confirmBooking(payload, cartItemId);
+  const result = await BookingService.confirmBooking(data);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

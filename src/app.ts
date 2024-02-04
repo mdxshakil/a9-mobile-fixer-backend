@@ -14,9 +14,13 @@ const app: Application = express();
 // app.use('/banner', express.static(config.blog_banner_dest as string));
 
 app.use(cors());
+// const allowedOrigins = [
+//   'http://localhost:3000/',
+//   'https://a9-mobile-fix-service.netlify.app/',
+// ];
 // app.use(
 //   cors({
-//     origin: 'http://examplefrontend.com',
+//     origin: allowedOrigins,
 //     credentials: true,
 //   })
 // );

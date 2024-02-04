@@ -63,6 +63,9 @@ const getAllService = async (
       [sortBy]: sortOrder,
     },
     take: limit,
+    include: {
+      ratings: true,
+    },
     skip,
   });
 
@@ -86,6 +89,7 @@ const getUpcomingServices = async () => {
     where: {
       status: 'upcoming',
     },
+    take: 8,
   });
 
   return result;
@@ -96,9 +100,12 @@ const getServicesForHomePage = async () => {
     where: {
       status: 'live',
     },
-    take: 6,
+    take: 8,
     orderBy: {
       createdAt: 'desc',
+    },
+    include: {
+      ratings: true,
     },
   });
 
@@ -171,7 +178,7 @@ const deleteService = async (serviceId: string) => {
       "Can't delete a service which is booked"
     );
   }
-  
+
   const result = await prisma.service.delete({
     where: {
       id: serviceId,
@@ -185,6 +192,9 @@ const getServiceById = async (serviceId: string) => {
   const result = await prisma.service.findUnique({
     where: {
       id: serviceId,
+    },
+    include: {
+      ratings: true,
     },
   });
 
